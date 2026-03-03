@@ -122,13 +122,6 @@ void glColorMaterial(int,int)
 }
 
 //1.8.2
-void glClientActiveTexture(int)
-{
-}
-
-void glActiveTexture(int)
-{
-}
 
 void glFlush()
 {

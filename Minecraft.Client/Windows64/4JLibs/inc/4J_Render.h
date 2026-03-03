@@ -145,6 +145,7 @@ public:
 	int TextureCreate();
 	void TextureFree(int idx);
 	void TextureBind(int idx);
+	void TextureBind(int layer, int idx);
 	void TextureBindVertex(int idx);
 	void TextureSetTextureLevels(int levels);
 	int  TextureGetTextureLevels();
@@ -298,5 +299,6 @@ const int GL_TRIANGLE_STRIP = C4JRender::PRIMITIVE_TYPE_TRIANGLE_STRIP;
 
 // Singleton
 extern C4JRender RenderManager;
+
 
 

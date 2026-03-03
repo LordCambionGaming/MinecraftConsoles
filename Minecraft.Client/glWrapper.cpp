@@ -3,6 +3,17 @@
 #include "..\Minecraft.World\IntBuffer.h"
 #include "..\Minecraft.World\ByteBuffer.h"
 
+static int g_activeTextureLayer = 0;
+
+static int getTextureLayer(int textureUnit)
+{
+	if (textureUnit == GL_TEXTURE1)
+		return 1;
+	if (textureUnit >= GL_TEXTURE0)
+		return textureUnit - GL_TEXTURE0;
+	return 0;
+}
+
 void glViewport(int x, int y, int w, int h)
 {
 	// We don't really need anything here because minecraft doesn't current do anything other than the default viewport
@@ -139,7 +150,7 @@ void Display::swapBuffers()
 
 void glBindTexture(int target,int texture)
 {
-	RenderManager.TextureBind(texture);
+	RenderManager.TextureBind(g_activeTextureLayer, texture);
 }
 
 void glTexImage2D(int target,int level,int internalformat,int width,int height,int border,int format,int type, ByteBuffer *data)
@@ -190,7 +201,7 @@ void glDisable(int state)
 	switch(state)
 	{
 		case GL_TEXTURE_2D:
-			RenderManager.TextureBind(-1);
+			RenderManager.TextureBind(g_activeTextureLayer, -1);
 			break;
 		case GL_BLEND:
 			RenderManager.StateSetBlendEnable(false);
@@ -391,3 +402,22 @@ void glCullFace(int dir)
 {
 	RenderManager.StateSetFaceCullCW( dir == GL_BACK);
 }
+void glClientActiveTexture(int texture)
+{
+	glActiveTexture(texture);
+}
+
+void glActiveTexture(int texture)
+{
+	int layer = getTextureLayer(texture);
+	if (layer < 0)
+	{
+		layer = 0;
+	}
+	else if (layer > 3)
+	{
+		layer = 3;
+	}
+	g_activeTextureLayer = layer;
+}
+

@@ -428,7 +428,7 @@ void Textures::bindTextureLayers(ResourceLocation *resource)
 
 	for( int i = 0; i < layers; i++ )
 	{
-		RenderManager.TextureBind(loadTexture(resource->getTexture(i)));
+		RenderManager.TextureBind(i, loadTexture(resource->getTexture(i)));
 	}
 }
 
@@ -1519,4 +1519,5 @@ bool Textures::IsOriginalImage(TEXTURE_NAME texId, const wstring& name)
 	}
 	return false;
 }
+
 
